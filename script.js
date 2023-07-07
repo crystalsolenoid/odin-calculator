@@ -14,16 +14,22 @@ function divide(a, b) {
   return a / b;
 }
 
+function percent(a) {
+  // unary operator not implemented
+}
+
 function operate(operator, a, b) {
   switch (operator) {
-    case '+':
+    case 'plus':
       return add(a, b);
-    case '-':
+    case 'minus':
       return subtract(a, b);
-    case '*':
+    case 'times':
       return multiply(a, b);
-    case '/':
+    case 'divide':
       return divide(a, b);
+    case 'percent':
+      return percent(a);
   }
 }
 
@@ -86,9 +92,21 @@ numNodeList.forEach(node => {
 document.querySelector('#ce').addEventListener('click', clearEntry);
 document.querySelector('#c').addEventListener('click', clearOperation);
 
+function operatorPress(e) {
+  operator = e.target.id;
+  operandA = +displayValue;
+  clearEntry();
+}
+
 function plussPress(e) {
   operandA = +displayValue;
   operator = '+';
+  clearEntry();
+}
+
+function minusPress(e) {
+  operandA = +displayValue;
+  operator = '-';
   clearEntry();
 }
 
@@ -97,5 +115,13 @@ function equalPress(e) {
   setDisplayValue(operate(operator, operandA, operandB));
 }
 
-document.querySelector('#plus').addEventListener('click', plussPress);
+document.querySelectorAll('.operator').forEach(btn => {
+  btn.addEventListener('click', operatorPress);
+});
+
 document.querySelector('#equal').addEventListener('click', equalPress);
+
+
+
+
+
