@@ -113,6 +113,7 @@ function minusPress(e) {
 function equalPress(e) {
   operandB = +displayValue;
   setDisplayValue(operate(operator, operandA, operandB));
+  displayValue = '';
 }
 
 document.querySelectorAll('.operator').forEach(btn => {
