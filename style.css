@@ -12,6 +12,16 @@
   align-items: stretch;
   --gap: calc(var(--unit) * 5);
   gap: var(--gap);
+
+  /* Colors based on the TI-2550 */
+  --white: #dddddd;
+  --black: #041220;
+  --btnblack: #030911;
+  --blue: #3baed2;
+  --orange: #f78030;
+
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .row {
@@ -20,14 +30,32 @@
   gap: var(--gap);
 }
 
-#calculator button {
+#memory button {
+  background-color: var(--btnblack);
+  color: var(--white);
+}
+
+.number {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.equal {
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+button {
   box-sizing: border-box;
 
   flex-basis: calc((100% - 3 * var(--gap))/4);
   aspect-ratio: 1/1;
+
+  background-color: var(--blue);
+  color: var(--white);
 }
 
-#calculator #n0, #calculator #equal {
+#n0, #equal {
   flex-grow: 1;
   aspect-ratio: auto;
 }
