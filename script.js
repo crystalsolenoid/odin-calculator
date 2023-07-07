@@ -39,14 +39,15 @@ let display = document.querySelector('#output');
 let operandA = null;
 let operandB = null;
 let operator = '';
+let result = null;
 
 clearEntry();
 
 function writeOutput() {
-  if (displayValue === '' && operator === '') {
-    display.innerText = '0';
+  if (result !== null) {
+    display.innerText = result;
   } else if (displayValue === '') {
-    display.innerText = operandA;
+    display.innerText = '0';
   } else {
     display.innerText = displayValue;
   }
@@ -54,6 +55,7 @@ function writeOutput() {
 
 function clearEntry() {
   displayValue = '';
+  result = null;
   writeOutput();
 }
 
@@ -61,6 +63,7 @@ function clearOperation() {
   operator = '';
   operandA = null;
   operandB = null;
+  result = null;
   clearEntry()
 }
 
@@ -77,6 +80,10 @@ function setDisplayValue(value) {
 
 function numberPress(e) {
   let value = e.target.id[1];
+  if (result !== null) { // if entering more numbers, clear result display
+    clearEntry();
+    result = null;
+  }
   if (displayValue.length === 14) return; // don't overflow display
   appendDisplayValue(value);
 }
@@ -95,25 +102,14 @@ document.querySelector('#c').addEventListener('click', clearOperation);
 function operatorPress(e) {
   operator = e.target.id;
   operandA = +displayValue;
-  clearEntry();
-}
-
-function plussPress(e) {
-  operandA = +displayValue;
-  operator = '+';
-  clearEntry();
-}
-
-function minusPress(e) {
-  operandA = +displayValue;
-  operator = '-';
-  clearEntry();
+  result = operandA;
+  setDisplayValue(result);
 }
 
 function equalPress(e) {
   operandB = +displayValue;
-  setDisplayValue(operate(operator, operandA, operandB));
-  displayValue = '';
+  result = operate(operator, operandA, operandB);
+  setDisplayValue(result);
 }
 
 document.querySelectorAll('.operator').forEach(btn => {
@@ -121,8 +117,3 @@ document.querySelectorAll('.operator').forEach(btn => {
 });
 
 document.querySelector('#equal').addEventListener('click', equalPress);
-
-
-
-
-
