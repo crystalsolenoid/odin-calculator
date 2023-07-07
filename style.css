@@ -76,3 +76,9 @@ button {
   flex-grow: 1;
   aspect-ratio: auto;
 }
+
+p {
+  margin: 0;
+  text-align: right;
+  font-style: italic;
+}
