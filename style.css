@@ -1,9 +1,14 @@
+@font-face {
+  font-family: "Digital 7";
+  src: url("digital_7/digital-7 (mono).ttf");
+}
+
 #calculator {
   margin: auto;
 
   --unit: min(40vh, 80vw)/100;
   max-width: calc(var(--unit) * 100);
-  padding: calc(var(--unit) * 10);
+  padding: calc(var(--unit) * 15) calc(var(--unit) * 10);
 
   border-style: solid;
 
@@ -22,6 +27,14 @@
 
   background-color: var(--black);
   color: var(--white);
+}
+
+#output {
+  border-style: solid;
+  font-size: calc(15 * var(--unit));
+  text-align: right;
+  padding: calc(1 * var(--unit));
+  font-family: "digital 7", monospace;
 }
 
 .row {
