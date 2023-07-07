@@ -53,6 +53,10 @@ button {
 
   background-color: var(--blue);
   color: var(--white);
+
+  font-size: calc(10 * var(--unit));
+  font-family: 'courier new';
+  font-weight: bold;
 }
 
 #n0, #equal {
