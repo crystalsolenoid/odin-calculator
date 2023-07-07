@@ -14,10 +14,6 @@ function divide(a, b) {
   return a / b;
 }
 
-let operandA;
-let operandB;
-let operator;
-
 function operate(operator, a, b) {
   switch (operator) {
     case '+':
@@ -33,11 +29,18 @@ function operate(operator, a, b) {
 
 let displayValue;
 let display = document.querySelector('#output');
+
+let operandA = null;
+let operandB = null;
+let operator = '';
+
 clearEntry();
 
 function writeOutput() {
-  if (displayValue === '') {
+  if (displayValue === '' && operator === '') {
     display.innerText = '0';
+  } else if (displayValue === '') {
+    display.innerText = operandA;
   } else {
     display.innerText = displayValue;
   }
@@ -48,9 +51,21 @@ function clearEntry() {
   writeOutput();
 }
 
+function clearOperation() {
+  operator = '';
+  operandA = null;
+  operandB = null;
+  clearEntry()
+}
+
 function appendDisplayValue(value) {
   let digit = value.toString();
   displayValue += digit;
+  writeOutput();
+}
+
+function setDisplayValue(value) {
+  displayValue = value;
   writeOutput();
 }
 
@@ -69,3 +84,18 @@ numNodeList.forEach(node => {
 });
 
 document.querySelector('#ce').addEventListener('click', clearEntry);
+document.querySelector('#c').addEventListener('click', clearOperation);
+
+function plussPress(e) {
+  operandA = +displayValue;
+  operator = '+';
+  clearEntry();
+}
+
+function equalPress(e) {
+  operandB = +displayValue;
+  setDisplayValue(operate(operator, operandA, operandB));
+}
+
+document.querySelector('#plus').addEventListener('click', plussPress);
+document.querySelector('#equal').addEventListener('click', equalPress);
