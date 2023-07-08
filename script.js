@@ -55,7 +55,6 @@ function writeOutput() {
 }
 
 function clearEntry() {
-  result = null;
   cleared = true;
   displayValue = '';
   writeOutput();
@@ -64,6 +63,7 @@ function clearEntry() {
 function clearOperation() {
   operator = '';
   clearEntry()
+  result = null;
 }
 
 function appendDisplayValue(value) {
@@ -109,6 +109,8 @@ function operatorPress(e) {
 }
 
 function equalPress(e) {
+  if (operator === null || result === null || displayValue === '')
+    return; // don't call operate on incomplete data
   result = operate(operator, result, +displayValue);
   cleared = false;
   setDisplayValue(result);
