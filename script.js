@@ -146,7 +146,7 @@ function equalPress(e) {
   if (repeatOperand !== null) {
     result = operate(operator, repeatOperand, +displayValue);
   } else {
-    repeatOperand = result;
+    repeatOperand = +displayValue;
     result = operate(operator, result, +displayValue);
   }
   cleared = false;
