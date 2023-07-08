@@ -54,9 +54,13 @@ function limitWidth(num, width) { // make sure results don't overflow
   if (leftLength <= width && expValue >= width) {
     return num.toString().substring(0, width);
   } else { // we need scientific notation
-    let expLength = 1 + expValue.toString().length
-                      + (expValue > 0 ? 1 : 0); // plus sign
-    let availLength = width - expLength - 2;
+    let expLength = (num < 0 ? 1 : 0) // minus sign
+                  + 1 // leading digit
+                  + 1 // decimal
+                  + 1 // E
+                  + (expValue > 0 ? 1 : 0) // exp + sign (- incl. in exp value)
+                  + expValue.toString().length; // exp value length
+    let availLength = width - expLength;
     if (availLength < 0) return 'overflow'; // no room for sci notation
     return num.toExponential(availLength).toString();
     return Number.parseFloat(num).toExponential(availLength).toString();
