@@ -109,21 +109,40 @@ function setDisplayValue(value) {
   writeOutput();
 }
 
-function numberPress(e) {
-  let value = e.target.id[1];
-  if (repeatOperand !== null) {
-    clearOperation();
-  }
+function tryInputNumber() {
   if (!cleared) { // if entering more numbers, clear result display
     clearEntry();
   }
-  if (displayValue.length === 14) return; // don't overflow display
+  if (displayValue.length === 14) return false; // don't overflow display
+  if (repeatOperand !== null) {
+    clearOperation();
+  }
+  return true;
+}
+
+function numberPress(e) {
+  let value = e.target.id[1];
+  if (!tryInputNumber()) return;
   appendDisplayValue(value);
+}
+
+function decimalPress(e) {
+  if (!tryInputNumber()) return;
+  if (displayValue.toString().includes('.') // can't add multiple decimal points
+   || displayValue.toString().includes(',')) { // make sure no locale bugs come up
+    return;
+  }
+  if (displayValue === '') {
+    appendDisplayValue('0.');
+  } else {
+    appendDisplayValue('.');
+  }
 }
 
 let numNodeList = document.querySelectorAll('.number');
 numNodeList.forEach(node => {
   if (node.id === "point") {
+    node.addEventListener('click', decimalPress);
   } else {
     node.addEventListener('click', numberPress);
   }
@@ -159,7 +178,7 @@ function equalPress(e) {
   if (operator === '' || result === null || displayValue === '')
     return; // don't call operate on incomplete data
   if (repeatOperand !== null) {
-    result = operate(operator, repeatOperand, +displayValue);
+    result = operate(operator, +displayValue, repeatOperand);
   } else {
     repeatOperand = +displayValue;
     result = operate(operator, result, +displayValue);
