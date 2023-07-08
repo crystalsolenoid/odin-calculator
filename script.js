@@ -17,7 +17,7 @@ function divide(a, b) {
 }
 
 function percent(a) {
-  // unary operator not implemented
+  return a / 100;
 }
 
 function operate(operator, a, b) {
@@ -30,6 +30,11 @@ function operate(operator, a, b) {
       return multiply(a, b);
     case 'divide':
       return divide(a, b);
+  }
+}
+
+function unary(operator, a) {
+  switch (operator) {
     case 'percent':
       return percent(a);
   }
@@ -39,6 +44,7 @@ let displayValue;
 let display = document.querySelector('#output');
 
 let operator = '';
+let unaryOperator = '';
 let result = null;
 let cleared = true;
 let repeatOperand = null;
@@ -68,9 +74,10 @@ function limitWidth(num, width) { // make sure results don't overflow
   }
 }
 
-function writeOutput() {
+function writeOutput(message) {
   if (!cleared) {
-    display.innerText = limitWidth(result, 14);
+    if (message === undefined) message = result;
+    display.innerText = limitWidth(message, 14);
   } else if (displayValue === '') {
     display.innerText = '0';
   } else {
@@ -129,7 +136,7 @@ function operatorPress(e) {
   if (repeatOperand !== null && cleared === true) {
     clearOperation();
   }
-  if (result === null || repeatOperand !== null) {
+  if (unaryOperator !== '' || result === null || repeatOperand !== null) {
     result = +displayValue;
     repeatOperand = null;
   } else { // operator chaining
@@ -138,6 +145,14 @@ function operatorPress(e) {
   cleared = false;
   setDisplayValue(result);
   operator = e.target.id;
+  unaryOperator = '';
+}
+
+function unaryPress(e) {
+  cleared = false;
+  displayValue = unary(e.target.id, +displayValue).toString();
+  writeOutput(+displayValue); // avoids having to set result;
+  unaryOperator = e.target.id;
 }
 
 function equalPress(e) {
@@ -156,5 +171,7 @@ function equalPress(e) {
 document.querySelectorAll('.operator').forEach(btn => {
   btn.addEventListener('click', operatorPress);
 });
+
+document.querySelector('#percent').addEventListener('click', unaryPress);
 
 document.querySelector('#equal').addEventListener('click', equalPress);
