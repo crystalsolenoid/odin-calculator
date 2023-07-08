@@ -38,15 +38,14 @@ function operate(operator, a, b) {
 let displayValue;
 let display = document.querySelector('#output');
 
-let operandA = null;
-let operandB = null;
 let operator = '';
 let result = null;
+let cleared = true;
 
 clearEntry();
 
 function writeOutput() {
-  if (result !== null) {
+  if (!cleared) {
     display.innerText = result;
   } else if (displayValue === '') {
     display.innerText = '0';
@@ -56,16 +55,14 @@ function writeOutput() {
 }
 
 function clearEntry() {
-  displayValue = '';
   result = null;
+  cleared = true;
+  displayValue = '';
   writeOutput();
 }
 
 function clearOperation() {
   operator = '';
-  operandA = null;
-  operandB = null;
-  result = null;
   clearEntry()
 }
 
@@ -82,9 +79,8 @@ function setDisplayValue(value) {
 
 function numberPress(e) {
   let value = e.target.id[1];
-  if (result !== null) { // if entering more numbers, clear result display
+  if (!cleared) { // if entering more numbers, clear result display
     clearEntry();
-    result = null;
   }
   if (displayValue.length === 14) return; // don't overflow display
   appendDisplayValue(value);
@@ -102,15 +98,19 @@ document.querySelector('#ce').addEventListener('click', clearEntry);
 document.querySelector('#c').addEventListener('click', clearOperation);
 
 function operatorPress(e) {
-  operator = e.target.id;
-  operandA = +displayValue;
-  result = operandA;
+  if (result === null) {
+    result = +displayValue;
+  } else { // operator chaining
+    result = operate(operator, result, +displayValue);
+  }
+  cleared = false;
   setDisplayValue(result);
+  operator = e.target.id;
 }
 
 function equalPress(e) {
-  operandB = +displayValue;
-  result = operate(operator, operandA, operandB);
+  result = operate(operator, result, +displayValue);
+  cleared = false;
   setDisplayValue(result);
 }
 
