@@ -31,7 +31,7 @@
 
 #output {
   border-style: solid;
-  font-size: calc(15 * var(--unit));
+  font-size: calc(14.8 * var(--unit));
   text-align: right;
   padding: calc(1 * var(--unit));
   font-family: "digital 7", monospace;
