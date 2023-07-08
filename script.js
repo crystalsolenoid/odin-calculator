@@ -41,6 +41,7 @@ let display = document.querySelector('#output');
 let operator = '';
 let result = null;
 let cleared = true;
+let repeatOperand = null;
 
 clearEntry();
 
@@ -80,6 +81,7 @@ function writeOutput() {
 function clearEntry() {
   cleared = true;
   displayValue = '';
+  repeatOperand = null;
   writeOutput();
 }
 
@@ -102,6 +104,9 @@ function setDisplayValue(value) {
 
 function numberPress(e) {
   let value = e.target.id[1];
+  if (repeatOperand !== null) {
+    clearOperation();
+  }
   if (!cleared) { // if entering more numbers, clear result display
     clearEntry();
   }
@@ -121,6 +126,9 @@ document.querySelector('#ce').addEventListener('click', clearEntry);
 document.querySelector('#c').addEventListener('click', clearOperation);
 
 function operatorPress(e) {
+  if (repeatOperand !== null) {
+    clearOperation();
+  }
   if (result === null) {
     result = +displayValue;
   } else { // operator chaining
@@ -132,9 +140,14 @@ function operatorPress(e) {
 }
 
 function equalPress(e) {
-  if (operator === null || result === null || displayValue === '')
+  if (operator === '' || result === null || displayValue === '')
     return; // don't call operate on incomplete data
-  result = operate(operator, result, +displayValue);
+  if (repeatOperand !== null) {
+    result = operate(operator, repeatOperand, +displayValue);
+  } else {
+    repeatOperand = result;
+    result = operate(operator, result, +displayValue);
+  }
   cleared = false;
   setDisplayValue(result);
 }
