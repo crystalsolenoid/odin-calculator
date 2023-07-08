@@ -44,9 +44,28 @@ let cleared = true;
 
 clearEntry();
 
+function limitWidth(num, width) { // make sure results don't overflow
+  if (num.toString().length <= width) return num.toString();
+  let leftLength = Math.round(num).toString().length;
+  let expValue = Math.floor(Math.log10(num));
+  // if the non-decimal part doesn't overflow
+  // and the number is not so small that rounding would
+  // lose more precision than sci notation, don't do sci notation
+  if (leftLength <= width && expValue >= width) {
+    return num.toString().substring(0, width);
+  } else { // we need scientific notation
+    let expLength = 1 + expValue.toString().length
+                      + (expValue > 0 ? 1 : 0); // plus sign
+    let availLength = width - expLength - 2;
+    if (availLength < 0) return 'overflow'; // no room for sci notation
+    return num.toExponential(availLength).toString();
+    return Number.parseFloat(num).toExponential(availLength).toString();
+  }
+}
+
 function writeOutput() {
   if (!cleared) {
-    display.innerText = result;
+    display.innerText = limitWidth(result, 14);
   } else if (displayValue === '') {
     display.innerText = '0';
   } else {
