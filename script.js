@@ -126,11 +126,12 @@ document.querySelector('#ce').addEventListener('click', clearEntry);
 document.querySelector('#c').addEventListener('click', clearOperation);
 
 function operatorPress(e) {
-  if (repeatOperand !== null) {
+  if (repeatOperand !== null && cleared === true) {
     clearOperation();
   }
-  if (result === null) {
+  if (result === null || repeatOperand !== null) {
     result = +displayValue;
+    repeatOperand = null;
   } else { // operator chaining
     result = operate(operator, result, +displayValue);
   }
