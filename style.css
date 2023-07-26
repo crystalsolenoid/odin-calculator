@@ -18,6 +18,8 @@
   --gap: calc(var(--unit) * 5);
   gap: var(--gap);
 
+  --rounding: calc(1.5 * var(--unit));
+
   /* Colors based on the TI-2550 */
   --white: #dddddd;
   --black: #041220;
@@ -39,6 +41,10 @@
   color: rgb(255 0 0 / 80%);
   text-shadow: 0 0 0.15em red;
   border-color: var(--white);
+}
+
+#calculator, button, #output {
+  border-radius: var(--rounding);
 }
 
 .row {
