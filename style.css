@@ -6,7 +6,8 @@
 #calculator {
   margin: auto;
 
-  --unit: min(40vh, 80vw)/100;
+  --pre-unit: min(40vh, 80vw)/100;
+  --unit: calc((var(--pre-unit) + (1rem / 4)) / 2);
   max-width: calc(var(--unit) * 100);
   padding: calc(var(--unit) * 15) calc(var(--unit) * 10);
 
