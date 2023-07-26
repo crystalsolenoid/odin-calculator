@@ -35,6 +35,10 @@
   text-align: right;
   padding: calc(1 * var(--unit));
   font-family: "digital 7", monospace;
+
+  color: rgb(255 0 0 / 80%);
+  text-shadow: 0 0 0.15em red;
+  border-color: var(--white);
 }
 
 .row {
